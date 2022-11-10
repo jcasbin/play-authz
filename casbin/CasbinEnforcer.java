@@ -32,7 +32,7 @@ public class CasbinEnforcer extends Enforcer {
         super(resolveModel(), resolveFilePolicy());
     }
     
-    @Inject
+//    @Inject
     public CasbinEnforcer(Database db, JDBCConfigurationProperties jdbcConfigurationProperties, CasbinExceptionProperties exceptionProperties) throws Exception {
         super(resolveModel(), resolveJDBCAdapter(db, jdbcConfigurationProperties, exceptionProperties));
 

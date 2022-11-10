@@ -14,30 +14,34 @@ import java.io.FileNotFoundException;
 @Singleton
 public class CasbinProperties extends Properties {
 
-    private boolean enableCasbin = (boolean) getValue("enableCasbin", true);
+    private final String root = "casbin";
 
-    private boolean useSyncedEnforcer = (boolean) getValue("useSyncedEnforcer", false);
+    private final String BASE_PATH = root + ".";
 
-    private String model = (String) getValue("model", "conf/casbin/model.conf");
+    private boolean enableCasbin = (boolean) getValue(root+"enableCasbin", true);
 
-    private String policy = (String) getValue("policy","conf/casbin/policy.csv");
+    private boolean useSyncedEnforcer = (boolean) getValue(root+"useSyncedEnforcer", false);
 
-    private String policyTopic = (String) getValue("policyTopic", "CASBIN_POLICY_TOPIC");
+    private String model = (String) getValue(root+"model", "conf/casbin/model.conf");
+
+    private String policy = (String) getValue(root+"policy","conf/casbin/policy.csv");
+
+    private String policyTopic = (String) getValue(root+"policyTopic", "CASBIN_POLICY_TOPIC");
 
 
-    private boolean enableWatcher = (boolean) getValue("enableWatcher", false);
+    private boolean enableWatcher = (boolean) getValue(root+"enableWatcher", false);
 
-    private boolean autoSave = (boolean) getValue("autoSave", true);
+    private boolean autoSave = (boolean) getValue(root+"autoSave", true);
 
-    private boolean useDefaultModelIfModelNotSetting = (boolean) getValue("useDefaultModelIfModelNotSetting", true);
+    private boolean useDefaultModelIfModelNotSetting = (boolean) getValue(root+"useDefaultModelIfModelNotSetting", true);
 
-    private String tableName = (String) getValue("tableName", "casbin_rule");
+    private String tableName = (String) getValue(root+"tableName", "casbin_rule");
 
-    private CasbinStoreType storeType = (CasbinStoreType) getValue("storeType", CasbinStoreType.JDBC);
+    private CasbinStoreType storeType = (CasbinStoreType) getValue(root+"storeType", CasbinStoreType.JDBC);
 
-    private CasbinWatcherType watcherType = (CasbinWatcherType) getValue("watcherType", CasbinWatcherType.REDIS);
+    private CasbinWatcherType watcherType = (CasbinWatcherType) getValue(root+"watcherType", CasbinWatcherType.REDIS);
 
-    private CasbinDataSourceInitializationMode initializeSchema = (CasbinDataSourceInitializationMode) getValue("initializeSchema", CasbinDataSourceInitializationMode.CREATE);
+    private CasbinDataSourceInitializationMode initializeSchema = (CasbinDataSourceInitializationMode) getValue(root+"initializeSchema", CasbinDataSourceInitializationMode.CREATE);
 
 
     public boolean couldResolveModelContext() throws CasbinModelConfFileNotFound, ModelFileIsEmptyException {
