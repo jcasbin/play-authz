@@ -9,13 +9,15 @@ import javax.inject.Singleton;
 @Singleton
 public class JDBCConfigurationProperties extends Properties{
 
-    private final Config config = ConfigFactory.load();
+    private String username = (String) getValue("username", "");
 
-    private String username = (String) getValue("db.default.username", "");
+    private String password = (String) getValue("password", "");
 
-    private String password = (String) getValue("db.default.password", "");
+    private String driver = (String) getValue("driver", "");
 
-    private String driver = (String) getValue("db.default.driver", "");
+    public JDBCConfigurationProperties() {
+        super("db.default");
+    }
 
     public Config getConfig() {
         return config;

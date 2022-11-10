@@ -3,6 +3,10 @@ package casbin.properties;
 public class CasbinExceptionProperties extends Properties{
     private boolean removePolicyFailed = (boolean) getValue("removePolicyFailed", false);
 
+    public CasbinExceptionProperties() {
+        super("casbin");
+    }
+
     public boolean isRemovePolicyFailed() {
         return removePolicyFailed;
     }
