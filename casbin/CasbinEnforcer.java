@@ -1,21 +1,21 @@
 package casbin;
 
 import casbin.exceptions.File.CasbinModelConfFileNotFound;
+import casbin.exceptions.File.CasbinPolicyCSVFileNotFound;
+import casbin.exceptions.File.ModelFileIsEmptyException;
 import casbin.exceptions.File.PolicyFileIsEmptyException;
 import casbin.properties.CasbinExceptionProperties;
+import casbin.properties.CasbinProperties;
 import casbin.properties.JDBCConfigurationProperties;
 import casbin.properties.options.CasbinDataSourceInitializationMode;
-import casbin.properties.CasbinProperties;
+import casbin.properties.options.CasbinStoreType;
+import org.casbin.adapter.JDBCAdapter;
 import org.casbin.jcasbin.main.Enforcer;
 import org.casbin.jcasbin.model.Model;
 import org.casbin.jcasbin.persist.Adapter;
 import org.casbin.jcasbin.persist.file_adapter.FileAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import casbin.exceptions.File.CasbinPolicyCSVFileNotFound;
-import casbin.exceptions.File.ModelFileIsEmptyException;
-import play.db.Database;
-import org.casbin.adapter.JDBCAdapter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,17 +25,17 @@ import javax.inject.Singleton;
 public class CasbinEnforcer extends Enforcer {
 
     private static final Logger logger = LoggerFactory.getLogger(CasbinEnforcer.class);
-    public static final CasbinProperties properties = new CasbinProperties();
+    private static final CasbinProperties properties = new CasbinProperties();
 
 
-    public CasbinEnforcer() throws CasbinModelConfFileNotFound, ModelFileIsEmptyException, PolicyFileIsEmptyException, CasbinPolicyCSVFileNotFound {
-        super(resolveModel(), resolveFilePolicy());
+    @Inject
+    public CasbinEnforcer(JDBCConfigurationProperties jdbcConfigurationProperties, CasbinExceptionProperties exceptionProperties) throws Exception {
+        super(resolveModel(), resolvePolicy(jdbcConfigurationProperties, exceptionProperties));
     }
-    
-//    @Inject
-    public CasbinEnforcer(Database db, JDBCConfigurationProperties jdbcConfigurationProperties, CasbinExceptionProperties exceptionProperties) throws Exception {
-        super(resolveModel(), resolveJDBCAdapter(db, jdbcConfigurationProperties, exceptionProperties));
 
+    private static Adapter resolvePolicy(JDBCConfigurationProperties jdbcConfigurationProperties, CasbinExceptionProperties exceptionProperties) throws Exception {
+        if (properties.getStoreType() == CasbinStoreType.FILE) return resolveFilePolicy();
+        return resolveJDBCAdapter(jdbcConfigurationProperties, exceptionProperties);
     }
 
     public static FileAdapter resolveFilePolicy() throws CasbinPolicyCSVFileNotFound, PolicyFileIsEmptyException {
@@ -48,14 +48,15 @@ public class CasbinEnforcer extends Enforcer {
         return new FileAdapter(properties.getPolicy());
     }
 
-    @Inject
-    public static Adapter resolveJDBCAdapter(Database db, JDBCConfigurationProperties jdbcConfigurationProperties, CasbinExceptionProperties exceptionProperties) throws Exception {
-        String dbName = db.getName();
+
+    public static Adapter resolveJDBCAdapter(JDBCConfigurationProperties jdbcConfigurationProperties, CasbinExceptionProperties exceptionProperties) throws Exception {
+
+
         CasbinDataSourceInitializationMode initializationMode = properties.getInitializeSchema();
         boolean autoCreateTable = initializationMode == CasbinDataSourceInitializationMode.CREATE;
         String tableName = properties.getTableName();
-        logger.info("Casbin current use database product: {}", dbName);
-        return new JDBCAdapter(jdbcConfigurationProperties.getDriver(), db.getUrl(), jdbcConfigurationProperties.getUsername(), jdbcConfigurationProperties.getPassword(), exceptionProperties.isRemovePolicyFailed(), tableName, autoCreateTable);
+
+        return new JDBCAdapter(jdbcConfigurationProperties.getDriver(), jdbcConfigurationProperties.getUrl(), jdbcConfigurationProperties.getUsername(), jdbcConfigurationProperties.getPassword(), exceptionProperties.isRemovePolicyFailed(), tableName, autoCreateTable);
 
     }
 
@@ -65,7 +66,7 @@ public class CasbinEnforcer extends Enforcer {
             return newModel(properties.getModel(), "");
         } catch (CasbinModelConfFileNotFound | ModelFileIsEmptyException e) {
             if (!properties.isUseDefaultModelIfModelNotSetting()) {
-                logger.error("Default Model setting is set to false, create model.conf file");
+                logger.info("Default Model setting is set to false, create model.conf file");
                 throw e;
             }
         }
@@ -87,8 +88,6 @@ public class CasbinEnforcer extends Enforcer {
 
         return model;
     }
-
-
 
 
 }

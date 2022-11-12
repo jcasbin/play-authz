@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 
 @Singleton
 public class CasbinProperties extends Properties {
-
     private boolean enableCasbin = (boolean) getValue("enableCasbin", true);
 
     private boolean useSyncedEnforcer = (boolean) getValue("useSyncedEnforcer", false);
@@ -33,11 +32,11 @@ public class CasbinProperties extends Properties {
 
     private String tableName = (String) getValue("tableName", "casbin_rule");
 
-    private CasbinStoreType storeType = (CasbinStoreType) getValue("storeType", CasbinStoreType.JDBC);
+    private CasbinStoreType storeType = CasbinStoreType.valueOf(getValue("storeType", CasbinStoreType.JDBC).toString().toUpperCase());
 
-    private CasbinWatcherType watcherType = (CasbinWatcherType) getValue("watcherType", CasbinWatcherType.REDIS);
+    private CasbinWatcherType watcherType = CasbinWatcherType.valueOf(getValue("watcherType", CasbinWatcherType.REDIS).toString().toUpperCase());
 
-    private CasbinDataSourceInitializationMode initializeSchema = (CasbinDataSourceInitializationMode) getValue("initializeSchema", CasbinDataSourceInitializationMode.CREATE);
+    private CasbinDataSourceInitializationMode initializeSchema = CasbinDataSourceInitializationMode.valueOf(getValue("initializeSchema", CasbinDataSourceInitializationMode.CREATE).toString().toUpperCase());
 
     public CasbinProperties() {
         super("casbin");
