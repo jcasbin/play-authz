@@ -56,7 +56,7 @@ jobs:
           server-id: ossrh
           server-username: OSSRH_JIRA_USERNAME
           server-password: OSSRH_JIRA_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY_ASCII }}
           gpg-passphrase: GPG_PASSPHRASE
 
       - name: Build with Maven
@@ -77,8 +77,7 @@ jobs:
           npm install -g @conveyal/maven-semantic-release semantic-release
           semantic-release --prepare @conveyal/maven-semantic-release --publish @semantic-release/github,@conveyal/maven-semantic-release --verify-conditions @semantic-release/github,@conveyal/maven-semantic-release --verify-release @conveyal/maven-semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          OSSRH_JIRA_USERNAME: ${{ secrets.OSSRH_JIRA_USERNAME }}
-          OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_JIRA_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSWORD }}
+          OSSRH_JIRA_USERNAME: ${{ secrets.OSSRH_TOKEN_USERNAME }}
+          OSSRH_JIRA_PASSWORD: ${{ secrets.OSSRH_TOKEN_PASSWORD }}
