@@ -4,7 +4,8 @@
 [![codecov](https://codecov.io/gh/jcasbin/play-authz/branch/master/graph/badge.svg?token=X55G2tju5I)](https://codecov.io/gh/jcasbin/play-authz)
 [![javadoc](https://javadoc.io/badge2/org.casbin/play-authz/javadoc.svg)](https://javadoc.io/doc/org.casbin/play-authz)
 [![Maven Central](https://img.shields.io/maven-central/v/org.casbin/play-authz.svg)](https://mvnrepository.com/artifact/org.casbin/play-authz/latest)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/casbin/lobby)
+[![Discord](https://img.shields.io/discord/1022748306096537660?logo=discord&label=discord&color=5865F2)](https://discord.gg/S5UjpzGZjN)
+
 <a name="readme-top"></a>
 <!-- TABLE OF CONTENTS -->
 <details>
