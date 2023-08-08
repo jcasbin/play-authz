@@ -1,5 +1,5 @@
 # play-authz
-[![codebeat badge](https://codebeat.co/badges/3afbd52e-7666-4e00-8107-5a34943c1733)](https://codebeat.co/projects/github-com-jcasbin-play-authz)
+[![codebeat badge](https://codebeat.co/badges/3afbd52e-7666-4e00-8107-5a34943c1733)](https://codebeat.co/projects/github-com-jcasbin-play-authz-master)
 [![Build Status](https://github.com/jcasbin/play-authz/workflows/build/badge.svg)](https://github.com/jcasbin/dynamodb-adapter/actions)
 [![codecov](https://codecov.io/gh/jcasbin/play-authz/branch/master/graph/badge.svg?token=X55G2tju5I)](https://codecov.io/gh/jcasbin/play-authz)
 [![javadoc](https://javadoc.io/badge2/org.casbin/play-authz/javadoc.svg)](https://javadoc.io/doc/org.casbin/play-authz)
@@ -35,7 +35,7 @@ Policy can be defined either in a `.conf` file or through _JDBC_ adapter.
 
 ## Getting Started
 * [Play framework](https://www.playframework.com/getting-started)
-* [Casbin](https://casbin.io/docs/category/the-basics)
+* [Casbin](https://casbin.org/docs/category/the-basics/)
 
 ## Dependency 
 * [jcasbin](https://mvnrepository.com/artifact/org.casbin/jcasbin)
